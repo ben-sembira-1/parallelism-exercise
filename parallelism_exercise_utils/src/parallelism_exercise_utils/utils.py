@@ -1,4 +1,4 @@
-__all__ = ['get_time_ns', 'random_sleep', 'open_once', 'is_pressed']
+__all__ = ['get_time_ns', 'random_sleep', 'open_once', 'is_pressed', 'is_time_for_cookie']
 
 from typing import List
 import time
@@ -32,5 +32,13 @@ def open_once(file_path: str) -> TextIOWrapper:
     return open(full_path, mode='w+')
 
 
+def is_time_for_cookie(number: int) -> bool:
+    import math
+    return int(sum(math.cos(n) for n in range(number % 1_500_000))) % 2 == 0
+
+
 if __name__ == "__main__":
-    pass
+    start=time.time()
+    for i in range(39):
+        print(is_time_for_cookie(time.time_ns()))
+    print(time.time()-start)

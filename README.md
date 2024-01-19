@@ -15,11 +15,24 @@ python3 src/parallel_party.py
 
 ## The program
 The program includes multiple parallel tasks:
-* without time.sleep add to a file named “time.1.log” a new line with the current time in nanoseconds approximately 13 times a second. Format it as follows: `f”[time] - {get_time()}”``
-* ⁠without using time.sleep, approximately every 2.7 seconds go over the new lines in the current file, and append to them a tupple of all the prime numbers between 2-30 that are dividers of the time in the row.
-* ⁠if the enter key is pressed, append to the end of the file statistics about the file: how many correct odd/even specifiers are out of the total time rows, how many rows still did not get a specifier, what was the pace in which the lines where written (the last minus the first time in the log divided by the number of [time] rows in the log). Then open a new file named “time.X.log” and continue the loop with it.
-* ⁠if escape is pressed, shut down the eventloop gracefully (without terminating a task in the middle of its writing). Use exceptions for this.
-* ⁠without using time.sleep write to the log approximately every second statistics about the last second (same metrics as above) with the format: f”[stats] in the last {time_passed_from_last_stats_according_to_file} - {correct_odds}/{total_time_rows} were correct, {unhandled} time rows do not have a specifier yet, and the rate of time rows is {rate}”
+* 13 times a second: Add to a file named “time.1.log” a new line with the current time in nanoseconds. Format it as follows: `f”[time] - {get_time_ns()}”``
+* 5 times a second: Go over the new lines in the current file, use the `is_time_for_cookie(number: int) -> bool` function on each one, and append `"(Cookie time)"` or `"(sleeping)"` to the end of the time row according to the value returend from the function. Example: `[time] - 1705707133875248900 (Cookie time)`
+* Every 4 seconds: Write to the log statistics (see below) about the new lines from the last statistics log.
+* ⁠If the enter key is pressed, append to the end of the file statistics (see below) about the whole session (file) and then open a new session (file) named “time.{prev+1}.log” and continue the loop with it. 
+* ⁠If escape is pressed, shut down the eventloop gracefully (without terminating a task in the middle of its writing).
+
+### Statistics
+
+Statistics include:
+* How many cookies where eaten?
+* Out of how many?
+* How many rows still did not get a cookie update?
+* What was the rate in which the time rows where written (the last minus the first time in the given rows devided by the amount of time rows).
+
+The format should be:
+```python
+f"[statistics] - {generate_statistics()}"
+```
 
 ## The exercise
 
@@ -36,8 +49,7 @@ build a program that runs all of the above tasks in parallel.
 1. Write the program logic in coroutines. How well is the output looking? Is it crashing?
 
 ### Restrictions
-- you can open each file for writing and reading only one time along the whole run, and should use the same handle in all your parallel tasks. Use seek for going around.
-- ⁠every row that is added to a file, should be appended to the end of it, so each row will not change its index along the run.
-- ⁠the only keyboard function you can use is “is_pressed(key)”
-- ⁠a long press on a key should be interpreted only once.
-- ⁠do not use time.sleep at all, the only function you can use is random_sleep() if you want too.
+- You can open each file for writing and reading only one time along the whole run.
+- Every row that is added to a file, should be appended to the end of it, so each row will not change its index along the run.
+- ⁠A long press on a key should be interpreted only once.
+- You are limited to import only from the exercise utils, and typing.
