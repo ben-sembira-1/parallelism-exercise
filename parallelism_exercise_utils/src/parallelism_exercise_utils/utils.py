@@ -38,7 +38,4 @@ def is_time_for_cookie(number: int) -> bool:
 
 
 if __name__ == "__main__":
-    start=time.time()
-    for i in range(39):
-        print(is_time_for_cookie(time.time_ns()))
-    print(time.time()-start)
+    pass
