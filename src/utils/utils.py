@@ -1,3 +1,5 @@
+__all__ = ['get_time_ns', 'random_sleep', 'open_once', 'is_pressed']
+
 from typing import List
 import time
 import random
@@ -13,9 +15,6 @@ add_module_to_path()
 cheating_check()
 
 
-__all__ = ['get_time_ns', 'random_sleep', 'open_file_for_read_and_write', 'is_pressed']
-
-
 def get_time_ns() -> int:
     return time.time_ns()
 
@@ -26,7 +25,7 @@ def random_sleep() -> None:
 
 
 __OPENED_FILES: List[Path] = []
-def open_file_for_read_and_write(file_path: str) -> TextIOWrapper:
+def open_once(file_path: str) -> TextIOWrapper:
     full_path = Path(file_path).absolute()
     if full_path in __OPENED_FILES:
         raise RuntimeError("The rules do not allow opening the same file twice.")
