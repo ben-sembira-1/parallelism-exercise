@@ -8,11 +8,10 @@ from io import TextIOWrapper
 
 from keyboard import is_pressed
 
-from runtime import add_module_to_path, cheating_check
+from parallelism_exercise_utils.runtime import cheating_check
 
 
-add_module_to_path()
-cheating_check()
+cheating_check(Path(__file__).parent)
 
 
 def get_time_ns() -> int:

@@ -1,6 +1,17 @@
 # parallelism-exercise
 An excersize for learning the concepts of parallelism, including threads and event-loops
 
+## Instructions
+
+1. Activate the venv (https://docs.python.org/3/library/venv.html for help)
+2. Install the utils package: 
+```bash
+pip install ./parallelism_exercise_utils
+```
+3. Run your program:
+```bash
+python3 src/parallel_party.py
+```
 
 ## The program
 The program includes multiple parallel tasks:
