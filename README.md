@@ -40,14 +40,36 @@ build a program that runs all of the above tasks in parallel.
 
 ### Step 1
 
+Read about:
+
+1. Threads
+1. Context switch
+1. ⁠Threads synchronizing mechanisms (mutex, semaphore, event)
+
+Code:
+
 1. Write the program logic using **threads**, without using synchronizing mechanisms. How well is the output looking? Is it crashing?
 1. Add syncronising mechanisms (Mutex, Semaphore, Event)
 
 ### Step 2
 
+Read about:
+
+1. ⁠Event loops (tasks, queue, await)
+1. ⁠AsyncIO
+
+Code:
+
 1. Write the program logic using **asyncIO**, without using synchronizing mechanisms. How well is the output looking? Is it crashing?
 
 ### Step 3
+
+Read about:
+
+1. ⁠Generators in python (yield, yield from, next)
+1. ⁠Coroutines
+
+Code:
 
 1. Write a custom event loop that is capable of running multiple coroutines in parallel.
 1. Write the program logic in coroutines. How well is the output looking? Is it crashing?
