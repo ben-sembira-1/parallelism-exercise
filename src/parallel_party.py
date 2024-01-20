@@ -5,4 +5,19 @@ try:
 except ImportError:
     raise ImportError("Did you pip install the utils package?")
 
-print("your code here")
+from interfaces import Session
+from thread_runner import threads_pull_same_args
+from thread_tasks import time_logger, cookie_updater, statistics_logger, session_switcher, soft_terminator
+
+
+def main():
+    session = Session()
+    threads_pull_same_args((time_logger, cookie_updater,
+                           statistics_logger, session_switcher, soft_terminator), session)
+    while True:
+        random_sleep()
+        print(".", end="")
+
+
+if __name__ == "__main__":
+    main()

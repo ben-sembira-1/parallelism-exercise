@@ -1,3 +1,4 @@
+from io import TextIOWrapper
 from keyboard import is_pressed
 from .utils import get_time_ns, random_sleep, open_once, is_time_for_cookie
 
