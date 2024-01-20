@@ -23,10 +23,13 @@ def random_sleep() -> None:
 
 
 __OPENED_FILES: List[Path] = []
+
+
 def open_once(file_path: str) -> TextIOWrapper:
     full_path = Path(file_path).absolute()
     if full_path in __OPENED_FILES:
-        raise RuntimeError("The rules do not allow opening the same file twice.")
+        raise RuntimeError(
+            "The rules do not allow opening the same file twice.")
     __OPENED_FILES.append(full_path)
     return open(full_path, mode='w+')
 

@@ -45,4 +45,5 @@ def cheating_check(module_path):
         hash_file_path.write_bytes(actual_hash)
 
     if actual_hash != hash_file_path.read_bytes():
-        raise CheatError("The imported utils module has been changed. Are you cheating?")
+        raise CheatError(
+            "The imported utils module has been changed. Are you cheating?")
