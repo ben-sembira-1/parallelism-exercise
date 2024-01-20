@@ -45,6 +45,10 @@ build a program that runs all of the above tasks in parallel.
 
 ### Step 2
 
+1. Write the program logic using **asyncIO**, without using synchronizing mechanisms. How well is the output looking? Is it crashing?
+
+### Step 3
+
 1. Write a custom event loop that is capable of running multiple coroutines in parallel.
 1. Write the program logic in coroutines. How well is the output looking? Is it crashing?
 
@@ -53,4 +57,5 @@ build a program that runs all of the above tasks in parallel.
 - Every row that is added to a file, should be appended to the end of it, so each row will not change its index along the run.
 - ⁠A long press on a key should be interpreted only once.
 - You are limited to import only from the exercise utils, and typing.
-    - The utils includes only: `is_pressed, get_time_ns, random_sleep, open_once, is_time_for_cookie`
+    - Do not change the utils package, and import only from `parallel_exercise_utils`.
+    - From the utils import only: `is_pressed, get_time_ns, random_sleep, open_once, is_time_for_cookie`
