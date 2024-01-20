@@ -4,7 +4,10 @@ import random
 from pathlib import Path
 from io import TextIOWrapper
 
-from parallelism_exercise_utils.runtime import cheating_check
+if __name__ == "__main__":
+    from runtime import cheating_check
+else:
+    from .runtime import cheating_check
 
 
 cheating_check(Path(__file__).parent)
