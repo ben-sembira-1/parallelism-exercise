@@ -12,7 +12,8 @@ HASH_FILE_NAME = ".utils_sha1.txt"
 
 
 def all_module_files_with_permission(module_path: Path, exclude_patterns: List[str]) -> Iterable[Path]:
-    for file_path in module_path.iterdir():
+    sorted_dir_content = sorted(module_path.iterdir(), key=lambda path: path.name)
+    for file_path in sorted_dir_content:
         if any(pattern in file_path.absolute().as_uri() for pattern in exclude_patterns):
             continue
         if not file_path.name.split('.')[-1] == "py":
