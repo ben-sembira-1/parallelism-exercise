@@ -1,10 +1,10 @@
-from parallelism_exercise_utils import random_sleep
+from parallelism_exercise_utils import random_sleep, get_time_ns
 from interfaces import Session
 
-
 def time_logger(session: Session) -> None:
+
     while True:
-        session.file_handle.write(f"time_logger\n")
+        session.file_handle.write("time_logger\n")
         random_sleep()
 
 

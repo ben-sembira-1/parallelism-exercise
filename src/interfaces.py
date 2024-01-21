@@ -1,7 +1,7 @@
 
 from typing import Callable, Optional
 
-from parallelism_exercise_utils import TextIOWrapper, open_once
+from parallelism_exercise_utils import TextIOWrapper, FileHandle
 
 
 class Session:
@@ -11,6 +11,5 @@ class Session:
         self.should_terminate = False
 
     def new_session(self):
-        self.file_handle.close()
         self.index += 1
-        self.file_handle = open_once(f"time.{self.index}.log")
+        self.file_handle = FileHandle(f"time.{self.index}.log")
