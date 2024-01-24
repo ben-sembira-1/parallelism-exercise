@@ -29,7 +29,6 @@ APPEND_TO_END = None
 class FileHandle:
     def __init__(self, path: str):
         self.__path = Path(path)
-        self.__path.exists() and self.__path.unlink()
 
     def _write_single_char(self, position: int, char: str):
         assert len(char) == 1, "Writing only single chars."
