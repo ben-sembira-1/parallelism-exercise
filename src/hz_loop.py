@@ -11,6 +11,8 @@ def hz_loop(
     next_loop_time = get_time_ns()
     while not should_stop():
         if get_time_ns() >= next_loop_time:
+            print("Acting!")
             next_loop_time += period_time_ns
             callable()
+        print(".", end="")
         random_sleep()

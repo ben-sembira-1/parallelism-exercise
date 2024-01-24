@@ -23,38 +23,44 @@ def random_sleep() -> None:
 
 
 READ_ALL = None
+APPEND_TO_END = None
+
+
 class FileHandle:
     def __init__(self, path: str):
         self.__path = Path(path)
         self.__path.exists() and self.__path.unlink()
-    
+
     def _write_single_char(self, position: int, char: str):
         assert len(char) == 1, "Writing only single chars."
-        with open(self.__path, mode='a') as f:
-                f.seek(position)
-                f.write(char)
-    
+        with open(self.__path, mode="a") as f:
+            f.seek(position)
+            f.write(char)
+
     def _read_single_char(self, position: int) -> str:
-        with open(self.__path, mode='r') as f:
-                f.seek(position)
-                return f.read(1)
-    
+        with open(self.__path, mode="r") as f:
+            f.seek(position)
+            return f.read(1)
+
     def _len_of_file(self) -> int:
-         return len(self.__path.read_text()) if self.__path.exists() else 0
-    
-    def write(self, string: str, start_point: Optional[int] = None):
-        index = start_point if start_point is not None else self._len_of_file()
+        return len(self.__path.read_text()) if self.__path.exists() else 0
+
+    def write(self, string: str, start_point: Optional[int] = APPEND_TO_END):
+        index = start_point if start_point is not APPEND_TO_END else self._len_of_file()
         for char in string:
             self._write_single_char(index, char)
             index += 1
-    
+
     def read(self, start_point: int = 0, amount: Optional[int] = READ_ALL) -> str:
         file_size = self._len_of_file()
-        return "".join(self._read_single_char(index) for index in range(start_point, file_size))
+        return "".join(
+            self._read_single_char(index) for index in range(start_point, file_size)
+        )
 
 
 def is_time_for_cookie(number: int) -> bool:
     import math
+
     return int(sum(math.cos(n) for n in range(number % 1_500_000))) % 2 == 0
 
 

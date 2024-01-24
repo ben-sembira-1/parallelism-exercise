@@ -21,11 +21,11 @@ def main():
     session.new_session()
     threads_pull_same_args(
         (
-            time_logger,
+            # time_logger,
             cookie_updater,
-            statistics_logger,
-            session_switcher,
-            soft_terminator,
+            # statistics_logger,
+            # session_switcher,
+            # soft_terminator,
         ),
         session,
     )

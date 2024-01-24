@@ -1,10 +1,10 @@
-from parallelism_exercise_utils import TextIOWrapper, FileHandle
+from parallelism_exercise_utils import FileHandle
 
 
 class Session:
     def __init__(self) -> None:
         self.index = 0
-        self.file_handle: TextIOWrapper = FileHandle(f"time.{self.index}.log")
+        self.file_handle: FileHandle = FileHandle(f"time.{self.index}.log")
         self.should_terminate = False
 
     def new_session(self):

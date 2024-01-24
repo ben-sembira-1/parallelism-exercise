@@ -18,6 +18,7 @@ classifiers = [
 ]
 dependencies = [
   "keyboard",
+  "types-keyboard",
 ]
 
 [tool.setuptools]
