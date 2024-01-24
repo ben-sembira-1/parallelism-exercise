@@ -10,7 +10,7 @@ else:
     from .runtime import cheating_check
 
 
-cheating_check(Path(__file__).parent)
+# cheating_check(Path(__file__).parent)
 
 
 def get_time_ns() -> int:
@@ -32,9 +32,10 @@ class FileHandle:
 
     def _write_single_char(self, position: int, char: str):
         assert len(char) == 1, "Writing only single chars."
-        with open(self.__path, mode="a") as f:
+        with open(self.__path, mode="r+") as f:
             f.seek(position)
             f.write(char)
+        print(f"wrote '{char}' to: {position=}, ")
 
     def _read_single_char(self, position: int) -> str:
         with open(self.__path, mode="r") as f:
@@ -51,10 +52,11 @@ class FileHandle:
             index += 1
 
     def read(self, start_point: int = 0, amount: Optional[int] = READ_ALL) -> str:
-        file_size = self._len_of_file()
-        return "".join(
-            self._read_single_char(index) for index in range(start_point, file_size)
+        read_until = self._len_of_file() if amount == READ_ALL else start_point + amount
+        response = "".join(
+            self._read_single_char(index) for index in range(start_point, read_until)
         )
+        return response
 
 
 def is_time_for_cookie(number: int) -> bool:

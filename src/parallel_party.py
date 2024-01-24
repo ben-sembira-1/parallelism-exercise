@@ -6,10 +6,10 @@ except ImportError:
     raise ImportError("Did you pip install the utils package?")
 
 from interfaces import Session
-from thread_runner import threads_pull_same_args
+from thread_runner import threads_pull
 from thread_tasks import (
-    time_logger,
-    cookie_updater,
+    generate_time_logger,
+    CookieUpdater,
     statistics_logger,
     session_switcher,
     soft_terminator,
@@ -18,16 +18,14 @@ from thread_tasks import (
 
 def main():
     session = Session()
-    session.new_session()
-    threads_pull_same_args(
+    threads_pull(
         (
-            # time_logger,
-            cookie_updater,
+            # generate_time_logger(session),
+            CookieUpdater(session),
             # statistics_logger,
             # session_switcher,
             # soft_terminator,
         ),
-        session,
     )
     while True:
         random_sleep()

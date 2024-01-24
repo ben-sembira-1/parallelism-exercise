@@ -1,3 +1,4 @@
+from typing import Callable
 from parallelism_exercise_utils.utils import (
     random_sleep,
     get_time_ns,
@@ -8,43 +9,57 @@ from interfaces import Session
 from hz_loop import hz_loop
 
 
-def time_logger(session: Session) -> None:
-    def log_time():
-        session.file_handle.write(
-            f"[time] - {get_time_ns()}\n", start_point=APPEND_TO_END
-        )
+def generate_time_logger(session: Session) -> Callable[[], None]:
+    def time_logger() -> None:
+        def log_time():
+            session.file_handle.write(
+                f"[time] - {get_time_ns()}\n", start_point=APPEND_TO_END
+            )
 
-    hz_loop(log_time, lambda: False, hz=13)
+        hz_loop(log_time, lambda: False, hz=13)
 
-
-def _cookie_update_single_row(
-    row: str, index_to_cookie_update: int, session: Session
-) -> None:
-    if row.startswith("[time]"):
-        should_cookie = is_time_for_cookie(int(row.lstrip("[time] - ")))
-        should_cookie_label = "Cookie time" if should_cookie else "sleeping"
-        session.file_handle.write(
-            f" ({should_cookie_label})", start_point=index_to_cookie_update
-        )
+    return time_logger
 
 
-def cookie_updater(session: Session) -> None:
+class CookieUpdater:
     NEW_LINE = "\n"
     END_OF_FILE = ""
-    index_in_file = 0
-    current_row = ""
 
-    def update_cookies() -> None:
+    def __init__(self, session: Session):
+        self._session = session
+        self._index_in_file = 0
+        self._current_row = ""
+
+    @staticmethod
+    def _cookie_update_single_row(
+        row: str, index_to_cookie_update: int, session: Session
+    ) -> None:
+        if row.startswith("[time]"):
+            print(f"Good row!, {index_to_cookie_update=}")
+            should_cookie = is_time_for_cookie(int(row.lstrip("[time] - ")))
+            should_cookie_label = "Cookie time" if should_cookie else "sleeping"
+            session.file_handle.write(
+                f" ({should_cookie_label})", start_point=index_to_cookie_update
+            )
+
+    def update_cookies(self) -> None:
         while (
-            next_char := session.file_handle.read(start_point=index_in_file, amount=1)
-        ) != END_OF_FILE:
-            if next_char != NEW_LINE:
-                current_row += next_char
+            next_char := self._session.file_handle.read(
+                start_point=self._index_in_file, amount=1
+            )
+        ) != CookieUpdater.END_OF_FILE:
+            if next_char != CookieUpdater.NEW_LINE:
+                self._current_row += next_char
+                print(self._current_row)
             else:
-                _cookie_update_single_row(current_row, index_in_file - 1, session)
-                current_row = ""
+                CookieUpdater._cookie_update_single_row(
+                    self._current_row, self._index_in_file, self._session
+                )
+                self._current_row = ""
+            self._index_in_file += 1
 
-    hz_loop(update_cookies, lambda: False, hz=5)
+    def __call__(self) -> None:
+        hz_loop(self.update_cookies, lambda: False, hz=5)
 
 
 def statistics_logger(session: Session) -> None:
