@@ -13,7 +13,7 @@ from thread_tasks import time_logger, cookie_updater, statistics_logger, session
 def main():
     session = Session()
     session.new_session()
-    # threads_pull_same_args((time_logger, cookie_updater), session)
+    # threads_pull_same_args((time_logger,), session)
     threads_pull_same_args((time_logger, cookie_updater,
                             statistics_logger, session_switcher, soft_terminator), session)
     while True:

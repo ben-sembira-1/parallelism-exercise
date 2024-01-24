@@ -25,21 +25,22 @@ def random_sleep() -> None:
 READ_ALL = None
 class FileHandle:
     def __init__(self, path: str):
-        self.path = path
+        self.__path = Path(path)
+        self.__path.exists() and self.__path.unlink()
     
     def _write_single_char(self, position: int, char: str):
         assert len(char) == 1, "Writing only single chars."
-        with open(self.path, mode='w') as f:
+        with open(self.__path, mode='a') as f:
                 f.seek(position)
                 f.write(char)
     
     def _read_single_char(self, position: int) -> str:
-        with open(self.path, mode='r') as f:
+        with open(self.__path, mode='r') as f:
                 f.seek(position)
                 return f.read(1)
     
     def _len_of_file(self) -> int:
-         return len(Path(self.path).read_text())
+         return len(self.__path.read_text()) if self.__path.exists() else 0
     
     def write(self, string: str, start_point: Optional[int] = None):
         index = start_point if start_point is not None else self._len_of_file()
