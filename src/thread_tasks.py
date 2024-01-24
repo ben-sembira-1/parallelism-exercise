@@ -1,11 +1,13 @@
 from parallelism_exercise_utils import random_sleep, get_time_ns
 from interfaces import Session
+from hz_loop import hz_loop
+
 
 def time_logger(session: Session) -> None:
+    def log_time():
+        session.file_handle.write(f"[time] {get_time_ns()}\n")
 
-    while True:
-        session.file_handle.write("time_logger\n")
-        random_sleep()
+    hz_loop(log_time, lambda: False, hz=13)
 
 
 def cookie_updater(session: Session) -> None:

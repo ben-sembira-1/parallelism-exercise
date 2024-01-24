@@ -1,13 +1,10 @@
-
-from typing import Callable, Optional
-
 from parallelism_exercise_utils import TextIOWrapper, FileHandle
 
 
 class Session:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
-        self.file_handle: Optional[TextIOWrapper] = None
+        self.file_handle: TextIOWrapper = FileHandle(f"time.{self.index}.log")
         self.should_terminate = False
 
     def new_session(self):
