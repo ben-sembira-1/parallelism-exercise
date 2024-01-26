@@ -7,13 +7,14 @@ from parallelism_exercise_utils.utils import (
 )
 from interfaces import Session
 from hz_loop import hz_loop
+import time_row
 
 
 def generate_time_logger(session: Session) -> Callable[[], None]:
     def time_logger() -> None:
         def log_time():
             session.file_handle.write(
-                f"[time] - {get_time_ns()}\n", start_point=APPEND_TO_END
+                time_row.create_line(get_time_ns()), start_point=APPEND_TO_END
             )
 
         hz_loop(log_time, lambda: False, hz=13)
@@ -29,17 +30,19 @@ class CookieUpdater:
         self._session = session
         self._index_in_file = 0
         self._current_row = ""
+    
+    def rows_
 
     @staticmethod
     def _cookie_update_single_row(
-        row: str, index_to_cookie_update: int, session: Session
+        line: str, index_to_cookie_update: int, session: Session
     ) -> None:
-        if row.startswith("[time]"):
-            print(f"Good row!, {index_to_cookie_update=}")
-            should_cookie = is_time_for_cookie(int(row.lstrip("[time] - ")))
+        if time_row.is_time_line(line):
+            should_cookie = is_time_for_cookie(time_row.extract_time(line))
             should_cookie_label = "Cookie time" if should_cookie else "sleeping"
             session.file_handle.write(
-                f" ({should_cookie_label})", start_point=index_to_cookie_update
+                f" ({should_cookie_label})",
+                start_point=index_to_cookie_update - len(should_cookie_label),
             )
 
     def update_cookies(self) -> None:
