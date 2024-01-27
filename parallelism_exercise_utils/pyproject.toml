@@ -17,8 +17,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-  "keyboard",
-  "types-keyboard",
+  "pynput",
+  "types-pynput",
 ]
 
 [tool.setuptools]

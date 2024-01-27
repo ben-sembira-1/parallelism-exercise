@@ -1,7 +1,5 @@
 try:
-    from parallelism_exercise_utils import (  # type: ignore
-        random_sleep,
-    )
+    from parallelism_exercise_utils import random_sleep  # type: ignore
 except ImportError:
     raise ImportError("Did you pip install the utils package?")
 
@@ -10,7 +8,7 @@ from thread_runner import threads_pull
 from thread_tasks import (
     generate_time_logger,
     CookieUpdater,
-    session_switcher,
+    SessionSwitcher,
     soft_terminator,
     StatisticsLogger,
 )
@@ -23,7 +21,7 @@ def main():
             generate_time_logger(session),
             CookieUpdater(session),
             StatisticsLogger(session),
-            # session_switcher,
+            SessionSwitcher(session),
             # soft_terminator,
         ),
     )

@@ -7,12 +7,14 @@ END_OF_FILE = ""
 
 class RollingFileLinesIterator:
     def __init__(
-        self, rolling_file: FileHandle, filter: Callable[[str], bool] = lambda _: True
+        self,
+        rolling_file: FileHandle,
+        lines_filter: Callable[[str], bool] = lambda _: True,
     ):
         self._file = rolling_file
         self._index_in_file = 0
         self._current_row = ""
-        self._filter = filter
+        self._filter = lines_filter
 
     def _update_suffix(self, suffix: Optional[str]) -> None:
         NEW_LINE_CHARACTER_LENGTH = 1
@@ -40,4 +42,10 @@ class RollingFileLinesIterator:
             if self._filter(self._current_row):
                 suffix_replacement = yield self._current_row
                 self._update_suffix(suffix_replacement)
+            self._current_row = ""
+
+    def update_rolling_file(self, rolling_file: FileHandle):
+        if self._file != rolling_file:
+            self._file = rolling_file
+            self._index_in_file = 0
             self._current_row = ""

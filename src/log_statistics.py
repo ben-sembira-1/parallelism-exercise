@@ -37,6 +37,8 @@ def generate_statistics_from_time_lines(
         filter(lambda line: COOKIE_TIME_LABEL in line, time_lines)
     )
     cookies_missed_list = list(filter(lambda line: SLEEPING_LABEL in line, time_lines))
+    if len(cookies_eaten_list) == 0:
+        return LogStatistics(0, 0, 0, 0)
     return LogStatistics(
         cookies_eaten=len(cookies_eaten_list),
         cookies_missed=len(cookies_missed_list),

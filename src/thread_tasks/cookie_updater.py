@@ -19,12 +19,13 @@ class CookieUpdater:
         self._session = session
         self._index_in_file = 0
         self._current_row = ""
-        self._time_lines = RollingFileLinesIterator(
+        self._time_lines_iterator = RollingFileLinesIterator(
             self._session.file_handle, time_row.is_time_line
         )
 
     def update_cookies(self) -> None:
-        next_lines_generator = self._time_lines.next_lines()
+        self._time_lines_iterator.update_rolling_file(self._session.file_handle)
+        next_lines_generator = self._time_lines_iterator.next_lines()
         try:
             current_line = next(next_lines_generator)
             while True:
