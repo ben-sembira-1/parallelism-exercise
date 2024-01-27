@@ -1,4 +1,5 @@
 from parallelism_exercise_utils.utils import is_time_for_cookie
+from cookies import COOKIE_TIME_LABEL, SLEEPING_LABEL
 from interfaces import Session
 from hz_loop import hz_loop
 from rolling_file_lines_iterator import RollingFileLinesIterator
@@ -11,8 +12,7 @@ def _cookie_label(line: str) -> str:
         return NO_LABEL
 
     should_cookie = is_time_for_cookie(time_row.extract_time(line))
-    should_cookie_label = "Cookie time" if should_cookie else "sleeping"
-    return f"({should_cookie_label})"
+    return COOKIE_TIME_LABEL if should_cookie else SLEEPING_LABEL
 
 
 class CookieUpdater:

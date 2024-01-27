@@ -10,9 +10,9 @@ from thread_runner import threads_pull
 from thread_tasks import (
     generate_time_logger,
     CookieUpdater,
-    generate_statistics_logger,
     session_switcher,
     soft_terminator,
+    StatisticsLogger,
 )
 
 
@@ -22,7 +22,7 @@ def main():
         (
             generate_time_logger(session),
             CookieUpdater(session),
-            generate_statistics_logger(session),
+            StatisticsLogger(session),
             # session_switcher,
             # soft_terminator,
         ),

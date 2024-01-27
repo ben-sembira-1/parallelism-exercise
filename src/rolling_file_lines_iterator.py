@@ -1,15 +1,15 @@
-from typing import Generator, Optional
+from typing import Callable, Generator, Optional
 from parallelism_exercise_utils import FileHandle
 
 NEW_LINE = "\n"
 END_OF_FILE = ""
 
-
 class RollingFileLinesIterator:
-    def __init__(self, rolling_file: FileHandle):
+    def __init__(self, rolling_file: FileHandle, filter: Callable[[str], bool] = lambda _: True):
         self._file = rolling_file
         self._index_in_file = 0
         self._current_row = ""
+        self._filter = filter
 
     def _update_suffix(self, suffix: Optional[str]) -> None:
         NEW_LINE_CHARACTER_LENGTH = 1
@@ -29,7 +29,8 @@ class RollingFileLinesIterator:
             self._index_in_file += 1
             if next_char != NEW_LINE:
                 self._current_row += next_char
-            else:
+                continue
+            if self._filter(self._current_row):
                 suffix_replacement = yield self._current_row
                 self._update_suffix(suffix_replacement)
-                self._current_row = ""
+            self._current_row = ""

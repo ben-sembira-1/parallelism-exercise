@@ -12,4 +12,4 @@ def create_line(time_ns: int) -> str:
 
 def extract_time(line: str) -> int:
     assert is_time_line(line), "Line is not a time line"
-    return int(line.removeprefix(__TIME_PREFIX).removesuffix(__LABELS_PLACEHOLDER_SUFFIX))
+    return int(line.removeprefix(__TIME_PREFIX).split()[0])
