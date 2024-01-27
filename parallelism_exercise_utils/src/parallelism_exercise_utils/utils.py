@@ -35,7 +35,6 @@ class FileHandle:
         with open(self.__path, mode="r+") as f:
             f.seek(position)
             f.write(char)
-        print(f"wrote '{char}' to: {position=}, ")
 
     def _read_single_char(self, position: int) -> str:
         with open(self.__path, mode="r") as f:
@@ -46,6 +45,7 @@ class FileHandle:
         return len(self.__path.read_text()) if self.__path.exists() else 0
 
     def write(self, string: str, start_point: Optional[int] = APPEND_TO_END):
+        self.__path.touch()
         index = start_point if start_point is not APPEND_TO_END else self._len_of_file()
         for char in string:
             self._write_single_char(index, char)

@@ -12,19 +12,24 @@ class RollingFileLinesIterator:
         self._current_row = ""
 
     def _update_suffix(self, suffix: Optional[str]) -> None:
+        NEW_LINE_CHARACTER_LENGTH = 1
         if suffix is not None:
-            self._file.write(suffix, start_point=self._index_in_file - len(suffix))
+            self._file.write(
+                suffix, start_point=self._index_in_file - len(suffix) - NEW_LINE_CHARACTER_LENGTH)
 
     def _read_next_char(self) -> str:
-        return self._file.read(start_point=self._index_in_file, amount=1)
+        try:
+            return self._file.read(start_point=self._index_in_file, amount=1)
+        except FileNotFoundError:
+            print("File not found, not reading anything.")
+            return END_OF_FILE
 
     def next_lines(self) -> Generator[str, Optional[str], None]:
         while (next_char := self._read_next_char()) != END_OF_FILE:
+            self._index_in_file += 1
             if next_char != NEW_LINE:
                 self._current_row += next_char
-                print(self._current_row)
             else:
                 suffix_replacement = yield self._current_row
                 self._update_suffix(suffix_replacement)
                 self._current_row = ""
-            self._index_in_file += 1

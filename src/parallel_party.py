@@ -20,7 +20,7 @@ def main():
     session = Session()
     threads_pull(
         (
-            # generate_time_logger(session),
+            generate_time_logger(session),
             CookieUpdater(session),
             # statistics_logger,
             # session_switcher,

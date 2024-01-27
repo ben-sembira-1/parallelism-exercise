@@ -7,6 +7,7 @@ from parallelism_exercise_utils.utils import (
 )
 from interfaces import Session
 from hz_loop import hz_loop
+from rolling_file_lines_iterator import RollingFileLinesIterator
 import time_row
 
 
@@ -22,6 +23,16 @@ def generate_time_logger(session: Session) -> Callable[[], None]:
     return time_logger
 
 
+def _cookie_label(line: str) -> str:
+    NO_LABEL = ""
+    if not time_row.is_time_line(line):
+        return NO_LABEL
+
+    should_cookie = is_time_for_cookie(time_row.extract_time(line))
+    should_cookie_label = "Cookie time" if should_cookie else "sleeping"
+    return f"({should_cookie_label})"
+
+
 class CookieUpdater:
     NEW_LINE = "\n"
     END_OF_FILE = ""
@@ -30,36 +41,17 @@ class CookieUpdater:
         self._session = session
         self._index_in_file = 0
         self._current_row = ""
-    
-    def rows_
-
-    @staticmethod
-    def _cookie_update_single_row(
-        line: str, index_to_cookie_update: int, session: Session
-    ) -> None:
-        if time_row.is_time_line(line):
-            should_cookie = is_time_for_cookie(time_row.extract_time(line))
-            should_cookie_label = "Cookie time" if should_cookie else "sleeping"
-            session.file_handle.write(
-                f" ({should_cookie_label})",
-                start_point=index_to_cookie_update - len(should_cookie_label),
-            )
+        self._file_lines = RollingFileLinesIterator(self._session.file_handle)
 
     def update_cookies(self) -> None:
-        while (
-            next_char := self._session.file_handle.read(
-                start_point=self._index_in_file, amount=1
-            )
-        ) != CookieUpdater.END_OF_FILE:
-            if next_char != CookieUpdater.NEW_LINE:
-                self._current_row += next_char
-                print(self._current_row)
-            else:
-                CookieUpdater._cookie_update_single_row(
-                    self._current_row, self._index_in_file, self._session
-                )
-                self._current_row = ""
-            self._index_in_file += 1
+        next_lines_generator = self._file_lines.next_lines()
+        try:
+            current_line = next(next_lines_generator)
+            while True:
+                current_line = next_lines_generator.send(
+                    _cookie_label(current_line))
+        except StopIteration:
+            pass
 
     def __call__(self) -> None:
         hz_loop(self.update_cookies, lambda: False, hz=5)
