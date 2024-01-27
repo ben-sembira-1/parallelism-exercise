@@ -1,11 +1,14 @@
 from typing import Callable, Generator, Optional
-from parallelism_exercise_utils import FileHandle
+from parallelism_exercise_utils import FileHandle  # type: ignore
 
 NEW_LINE = "\n"
 END_OF_FILE = ""
 
+
 class RollingFileLinesIterator:
-    def __init__(self, rolling_file: FileHandle, filter: Callable[[str], bool] = lambda _: True):
+    def __init__(
+        self, rolling_file: FileHandle, filter: Callable[[str], bool] = lambda _: True
+    ):
         self._file = rolling_file
         self._index_in_file = 0
         self._current_row = ""
@@ -15,7 +18,11 @@ class RollingFileLinesIterator:
         NEW_LINE_CHARACTER_LENGTH = 1
         if suffix is not None:
             self._file.write(
-                suffix, start_point=self._index_in_file - len(suffix) - NEW_LINE_CHARACTER_LENGTH)
+                suffix,
+                start_point=self._index_in_file
+                - len(suffix)
+                - NEW_LINE_CHARACTER_LENGTH,
+            )
 
     def _read_next_char(self) -> str:
         try:

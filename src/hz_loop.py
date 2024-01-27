@@ -1,4 +1,4 @@
-from parallelism_exercise_utils import get_time_ns, random_sleep
+from parallelism_exercise_utils import get_time_ns, random_sleep  # type: ignore
 
 from typing import Callable
 

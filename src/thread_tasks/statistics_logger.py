@@ -12,12 +12,12 @@ PERIOD_4_SECONDS_IN_HZ = 1 / 4
 class StatisticsLogger:
     def __init__(self, session: Session):
         self._session = session
-        self._file_lines = RollingFileLinesIterator(
+        self._time_lines = RollingFileLinesIterator(
             self._session.file_handle, is_time_line
         )
 
     def update_statistics(self):
-        new_lines = list(self._file_lines.next_lines())
+        new_lines = list(self._time_lines.next_lines())
         if len(new_lines) > 0:
             statistics = generate_statistics_from_time_lines(new_lines)
             self._session.file_handle.write(statistics.to_line())

@@ -78,5 +78,5 @@ Code:
 - You can open each file for writing and reading only one time along the whole run.
 - Every row that is added to a file, should be appended to the end of it, so each row will not change its index along the run.
 - ⁠A long press on a key should be interpreted only once.
-- You are limited to import only from `parallel_exercise_utils`, `threading` and `typing`.
+- You are limited to import only from `parallel_exercise_utils`, `threading`, `dataclasses` and `typing`.
     - From the utils import only: `is_pressed, get_time_ns, random_sleep, open_once, is_time_for_cookie`

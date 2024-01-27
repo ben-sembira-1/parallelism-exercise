@@ -1,4 +1,4 @@
-from parallelism_exercise_utils import FileHandle
+from parallelism_exercise_utils import FileHandle  # type: ignore
 
 
 class Session:

@@ -1,5 +1,5 @@
 try:
-    from parallelism_exercise_utils import (
+    from parallelism_exercise_utils import (  # type: ignore
         random_sleep,
     )
 except ImportError:

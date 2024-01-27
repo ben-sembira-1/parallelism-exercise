@@ -1,5 +1,5 @@
 from typing import Callable
-from parallelism_exercise_utils.utils import (
+from parallelism_exercise_utils.utils import (  # type: ignore
     get_time_ns,
     APPEND_TO_END,
 )
