@@ -1,26 +1,8 @@
-from typing import Callable
-from parallelism_exercise_utils.utils import (
-    random_sleep,
-    get_time_ns,
-    APPEND_TO_END,
-    is_time_for_cookie,
-)
+from parallelism_exercise_utils.utils import is_time_for_cookie
 from interfaces import Session
 from hz_loop import hz_loop
 from rolling_file_lines_iterator import RollingFileLinesIterator
 import time_row
-
-
-def generate_time_logger(session: Session) -> Callable[[], None]:
-    def time_logger() -> None:
-        def log_time():
-            session.file_handle.write(
-                time_row.create_line(get_time_ns()), start_point=APPEND_TO_END
-            )
-
-        hz_loop(log_time, lambda: False, hz=13)
-
-    return time_logger
 
 
 def _cookie_label(line: str) -> str:
@@ -55,21 +37,3 @@ class CookieUpdater:
 
     def __call__(self) -> None:
         hz_loop(self.update_cookies, lambda: False, hz=5)
-
-
-def statistics_logger(session: Session) -> None:
-    while True:
-        session.file_handle.write("statistics_logger\n")
-        random_sleep()
-
-
-def session_switcher(session: Session) -> None:
-    while True:
-        session.file_handle.write("session_switcher\n")
-        random_sleep()
-
-
-def soft_terminator(session: Session) -> None:
-    while True:
-        session.file_handle.write("soft_terminator\n")
-        random_sleep()
