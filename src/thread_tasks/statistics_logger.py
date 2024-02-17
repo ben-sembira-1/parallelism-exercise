@@ -3,7 +3,7 @@ from interfaces import Session
 from hz_loop import hz_loop, period_to_hz
 from log_statistics import LogStatistics, generate_statistics_from_time_lines
 from rolling_file_lines_iterator import RollingFileLinesIterator
-from time_row import extract_time, is_time_line
+from time_row import extract_time_nanoseconds, is_time_line
 
 
 class StatisticsLogger:

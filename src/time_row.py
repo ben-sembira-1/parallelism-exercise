@@ -10,6 +10,6 @@ def create_line(time_ns: int) -> str:
     return __TIME_PREFIX + str(time_ns) + __LABELS_PLACEHOLDER_SUFFIX
 
 
-def extract_time(line: str) -> int:
+def extract_time_nanoseconds(line: str) -> int:
     assert is_time_line(line), "Line is not a time line"
     return int(line.removeprefix(__TIME_PREFIX).split()[0])

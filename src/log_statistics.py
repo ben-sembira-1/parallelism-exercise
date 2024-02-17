@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Iterable, List
 from cookies import COOKIE_TIME_LABEL, SLEEPING_LABEL
 
-from time_row import extract_time
+from time_row import extract_time_nanoseconds
 
 
 @dataclass
@@ -31,6 +31,13 @@ class LogStatistics:
         )
 
 
+def extract_frequency_hz(time_lines: List[str]) -> float:
+    times_nanoseconds = [extract_time_nanoseconds(time_line)
+                         for time_line in time_lines]
+    times_seconds = [nanoseconds / 1e9 for nanoseconds in times_nanoseconds]
+    return len(times_seconds) / (times_seconds[-1] - times_seconds[0])
+
+
 def generate_statistics_from_time_lines(
     time_lines: List[str],
 ) -> LogStatistics:
@@ -45,8 +52,5 @@ def generate_statistics_from_time_lines(
         cookies_eaten=len(cookies_eaten_list),
         cookies_missed=len(cookies_missed_list),
         time_lines_count=len(time_lines),
-        time_lines_frequency_hz=(
-            extract_time(time_lines[-1]) - extract_time(time_lines[0])
-        )
-        / len(time_lines),
+        time_lines_frequency_hz=extract_frequency_hz(time_lines),
     )

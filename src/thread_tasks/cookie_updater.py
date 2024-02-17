@@ -7,7 +7,7 @@ import time_row
 
 
 def _cookie_label(line: str) -> str:
-    should_cookie = is_time_for_cookie(time_row.extract_time(line))
+    should_cookie = is_time_for_cookie(time_row.extract_time_nanoseconds(line))
     return COOKIE_TIME_LABEL if should_cookie else SLEEPING_LABEL
 
 
@@ -24,12 +24,14 @@ class CookieUpdater:
         )
 
     def update_cookies(self) -> None:
-        self._time_lines_iterator.update_rolling_file(self._session.file_handle)
+        self._time_lines_iterator.update_rolling_file(
+            self._session.file_handle)
         next_lines_generator = self._time_lines_iterator.next_lines()
         try:
             current_line = next(next_lines_generator)
             while True:
-                current_line = next_lines_generator.send(_cookie_label(current_line))
+                current_line = next_lines_generator.send(
+                    _cookie_label(current_line))
         except StopIteration:
             pass
 
