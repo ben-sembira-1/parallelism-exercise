@@ -1,10 +1,10 @@
 # parallelism-exercise
-An excersize for learning the concepts of parallelism, including threads and event-loops
+An exercise for learning the concepts of parallelism, including threads and event-loops
 
 ## Instructions
 
 1. Activate the venv (https://docs.python.org/3/library/venv.html for help)
-2. Install the utils package: 
+2. Install the utils package:
 ```bash
 pip install ./parallelism_exercise_utils
 ```
@@ -15,11 +15,11 @@ python3 src/parallel_party.py
 
 ## The program
 The program includes multiple parallel tasks:
-* 13 times a second: Add to a file named “time.1.log” a new line with the current time in nanoseconds. Format it as follows: `f”[time] - {get_time_ns()}”``
-* 5 times a second: Go over the new lines in the current file, use the `is_time_for_cookie(number: int) -> bool` function on each one, and append `"(Cookie time)"` or `"(sleeping)"` to the end of the time row according to the value returend from the function. Example: `[time] - 1705707133875248900 (Cookie time)`
-* Every 4 seconds: Write to the log statistics (see below) about the new lines from the last statistics log.
-* ⁠If the enter key is pressed, append to the end of the file statistics (see below) about the whole session (file) and then open a new session (file) named “time.{prev+1}.log” and continue the loop with it. 
-* ⁠If escape is pressed, shut down the eventloop gracefully (without terminating a task in the middle of its writing).
+* 20 times a second: Add to a file named “time.1.log” a new line with the current time in nanoseconds. Format it as follows: `f”[time] - {get_time_ns()}”``
+* 5 times a second: Go over the new lines in the current file, use the `is_time_for_cookie(number: int) -> bool` function on each one, and append `"(Cookie time)"` or `"(sleeping)"` to the end of the time row according to the value returned from the function. Example: `[time] - 1705707133875248900 (Cookie time)`
+* Every 2 seconds: Write to the log statistics (see below) about the new lines from the last statistics log.
+* ⁠If the enter key is pressed, append to the end of the file statistics (see below) about the whole session (file) and then open a new session (file) named “time.{prev+1}.log” and continue the loop with it.
+* ⁠If escape is pressed, shut down the event loop gracefully (without terminating a task in the middle of its writing).
 
 ### Statistics
 
@@ -27,7 +27,7 @@ Statistics include:
 * How many cookies where eaten?
 * Out of how many?
 * How many rows still did not get a cookie update?
-* What was the rate in which the time rows where written (the last minus the first time in the given rows devided by the amount of time rows).
+* What was the rate in which the time rows where written (the last minus the first time in the given rows divided by the amount of time rows).
 
 The format should be:
 ```python
@@ -49,7 +49,7 @@ Read about:
 Code:
 
 1. Write the program logic using **threads**, without using synchronizing mechanisms. How well is the output looking? Is it crashing?
-1. Add syncronising mechanisms (Mutex, Semaphore, Event)
+1. Add synchronizing mechanisms (Mutex, Semaphore, Event)
 
 ### Step 2
 

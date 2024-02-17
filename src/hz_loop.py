@@ -16,3 +16,7 @@ def hz_loop(
             callable()
         print(".", end="")
         random_sleep()
+
+
+def period_to_hz(*, seconds: float):
+    return 1 / seconds

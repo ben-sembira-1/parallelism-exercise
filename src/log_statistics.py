@@ -27,6 +27,7 @@ class LogStatistics:
             f"time rows rate: {self.time_lines_frequency_hz}"
             "\n"
             "------"
+            "\n"
         )
 
 
@@ -36,7 +37,8 @@ def generate_statistics_from_time_lines(
     cookies_eaten_list = list(
         filter(lambda line: COOKIE_TIME_LABEL in line, time_lines)
     )
-    cookies_missed_list = list(filter(lambda line: SLEEPING_LABEL in line, time_lines))
+    cookies_missed_list = list(
+        filter(lambda line: SLEEPING_LABEL in line, time_lines))
     if len(cookies_eaten_list) == 0:
         return LogStatistics(0, 0, 0, 0)
     return LogStatistics(

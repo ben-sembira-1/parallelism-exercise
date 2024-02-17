@@ -29,15 +29,17 @@ APPEND_TO_END = None
 class FileHandle:
     def __init__(self, path: str):
         self.__path = Path(path)
-        self.__path.unlink()
+        self.__path.unlink(missing_ok=True)
 
     def _write_single_char(self, position: int, char: str):
+        time.sleep(1e-4)
         assert len(char) == 1, "Writing only single chars."
         with open(self.__path, mode="r+") as f:
             f.seek(position)
             f.write(char)
 
     def _read_single_char(self, position: int) -> str:
+        time.sleep(1e-4)
         with open(self.__path, mode="r") as f:
             f.seek(position)
             return f.read(1)

@@ -9,12 +9,12 @@ import time_row
 
 
 def generate_time_logger(session: Session) -> Callable[[], None]:
-    def time_logger() -> None:
-        def log_time():
-            session.file_handle.write(
-                time_row.create_line(get_time_ns()), start_point=APPEND_TO_END
-            )
+    def log_time():
+        session.file_handle.write(
+            time_row.create_line(get_time_ns()), start_point=APPEND_TO_END
+        )
 
-        hz_loop(log_time, lambda: False, hz=13)
+    def time_logger() -> None:
+        hz_loop(log_time, lambda: False, hz=20)
 
     return time_logger

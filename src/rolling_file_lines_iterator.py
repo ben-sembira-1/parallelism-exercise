@@ -45,7 +45,7 @@ class RollingFileLinesIterator:
             self._current_row = ""
 
     def update_rolling_file(self, rolling_file: FileHandle):
-        if self._file != rolling_file:
+        if self._file is not rolling_file:
             self._file = rolling_file
             self._index_in_file = 0
             self._current_row = ""
